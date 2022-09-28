@@ -16,6 +16,8 @@ import (
 
 var plantillas = template.Must(template.ParseGlob("static/*"))
 
+//contactos
+
 type Person struct {
 	ID        int       `json:"id,omitempty"`
 	FirstName string    `json:"firstname,omitempty"`
