@@ -10,16 +10,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         <div class="mb-3">
         <a href="/people/delete/${element.id}"  class="btn btn-danger">Eliminar</a> | <a href="/people/edit/${element.id}"  class="btn btn-secondary">Editar</a>
         </div>
-        <div class="mb-3">
-        ${element.id}
-        </div>
         </div>
         </div>
         </div>`
       });
 
     })
-const recibir = document.getElementById("back")
 
 
 async function recibirDatos() {
