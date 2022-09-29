@@ -6,7 +6,6 @@ import (
 	"html/template"
 	"strconv"
 
-	// "io/ioutil"
 	"log"
 	"net/http"
 

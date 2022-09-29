@@ -13,15 +13,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         </div>
         </div>
         </div>`
-      });
+    });
 
-    })
-
-
-async function recibirDatos() {
-    const response = await fetch('http://localhost:3000/people')
-    const data = await response.json()
-    console.log(data)
-}
-
+})
 
