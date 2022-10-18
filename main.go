@@ -38,7 +38,6 @@ type Contact struct {
 }
 
 var people []Person
-
 var id = 1
 
 func editPage(w http.ResponseWriter, r *http.Request) {
@@ -56,12 +55,19 @@ func getPerson(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func getPeopleEndPoint(w http.ResponseWriter, r *http.Request) {
+func getPeople(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(people)
 }
 
 func createPerson(w http.ResponseWriter, r *http.Request) {
 	id++
+	log.Println(id)
+	if id > 20 {
+		people = append(people[:1], people[id-1:]...)
+		id = 1
+		http.Redirect(w, r, "/", http.StatusMovedPermanently)
+		return
+	}
 	people = append(people, Person{ID: id, FirstName: r.FormValue("firstname"), LastName: r.FormValue("lastname"), Location: &Location{Country: r.FormValue("country"), City: r.FormValue("city")}, Contact: &Contact{Prefix: r.FormValue("prefix"), Number: r.FormValue("number"), Email: r.FormValue("email")}})
 	http.Redirect(w, r, "/", http.StatusMovedPermanently)
 }
@@ -106,7 +112,7 @@ func main() {
 	people = append(people, Person{ID: id, FirstName: "Jesus", LastName: "Osorio", Location: &Location{Country: "Colombia", City: "Cali"}, Contact: &Contact{Prefix: "+57", Number: "312312312", Email: "email@gmail.com"}})
 
 	//endpoints
-	router.HandleFunc("/people", getPeopleEndPoint)
+	router.HandleFunc("/people", getPeople)
 	router.HandleFunc("/people/edit/{id}", editPage)
 	router.HandleFunc("/person/edit/{id}", editPerson)
 	router.HandleFunc("/people/crear", createPerson)
@@ -116,6 +122,6 @@ func main() {
 	router.PathPrefix("/").Handler(http.StripPrefix("/", http.FileServer(http.Dir("./static/"))))
 
 	handler := cors.Default().Handler(router)
-	log.Fatal(http.ListenAndServe(":3000", handler))
+	log.Fatal(http.ListenAndServe(":8080", handler))
 
 }
